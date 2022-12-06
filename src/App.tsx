@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import Logo from './assets/logo.svg'
-import { FiSearch, FiPlus } from 'react-icons/fi'
 import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
+import Home from './pages/Home';
+import Column from './components/Column';
 
 
 // const initialItems = [
@@ -57,93 +57,55 @@ function App() {
 
   return (
     <>
-      <div>
-        <img src={Logo} alt="Flow logo" />
-      </div>
-
-      <div>
-        <label htmlFor="">
-          <input type="text" placeholder='Buscar tarefa' />
-          <FiSearch />
-        </label>
-      </div>
-
-      <div>
-        <button>
-          <FiPlus />
-        </button>
-      </div>
+      <Home />
 
       <DragDropContext onDragEnd={onDragEnd}>
         {columns.map((column) => (
-          <Droppable
-            droppableId='task'
-          >
-            {(provided) => (
-              <div>
-                <h1>{column.name}</h1>
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                >
-                  {(task.map(({ id, content }, index) => {
-                    return (
-                      <Draggable
-                        key={id}
-                        draggableId={id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={provided.draggableProps.style}
-                          >
-                            {content}
-                          </div>
-                        )}
-                      </Draggable>
-                    )
-                  }))}
-                  {provided.placeholder}
-                </div>
-              </div>
-            )}
+          <Column
+            idColumn={'123'}
+            nameColumn={column.name}
+            taskList={task}
+            droppableId={'task'}
+          />
+          // <Droppable
+          //   droppableId='task'
+          // >
+          //   {(provided) => (
+          //     <div>
+          //       <h1>{column.name}</h1>
+          //       <div
+          //         {...provided.droppableProps}
+          //         ref={provided.innerRef}
+          //       >
+          //         {(task.map(({ id, content }, index) => {
+          //           return (
+          //             <Draggable
+          //               key={id}
+          //               draggableId={id}
+          //               index={index}
+          //             >
+          //               {(provided) => (
+          //                 <div
+          //                   ref={provided.innerRef}
+          //                   {...provided.draggableProps}
+          //                   {...provided.dragHandleProps}
+          //                   style={provided.draggableProps.style}
+          //                 >
+          //                   {content}
+          //                 </div>
+          //               )}
+          //             </Draggable>
+          //           )
+          //         }))}
+          //         {provided.placeholder}
+          //       </div>
+          //     </div>
+          //   )}
 
-          </Droppable>
+          // </Droppable>
         ))}
       </DragDropContext>
 
-      {/* <DragDropContext onDragEnd={onDragEnd}>
-        {initialColumns.map((column) => (
-          <Droppable droppableId={column.id}>
-            {(provided) => (
-              <div
-                ref={provided.innerRef}
-              >
-                <h1>{column.name}</h1>
-                <div>
-                  {column.items.map((item, index) => (
-                    <Draggable key={item.id} draggableId={item.id} index={index}>
-                      {(provided) => (
-                        <div
-                          {...provided.dragHandleProps}
-                          {...provided.draggableProps}
-                          ref={provided.innerRef}
-                          style={{ ...provided.draggableProps.style }}
-                        >
-                          {item.content}
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                </div>
-              </div>
-            )}
-          </Droppable>
-        ))}
-      </DragDropContext> */}
     </>
   )
 }
