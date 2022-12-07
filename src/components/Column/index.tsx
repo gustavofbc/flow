@@ -1,5 +1,6 @@
-import { Draggable, Droppable } from '@hello-pangea/dnd'
+import { Droppable } from '@hello-pangea/dnd'
 import React from 'react'
+import ListItem from '../ListItem'
 import { ContainerColumn } from './styles'
 
 interface TaskProps {
@@ -29,22 +30,27 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId }: ColumnProps) =>
                     >
                         {(taskList.map(({ id, content }, index) => {
                             return (
-                                <Draggable
-                                    key={id}
-                                    draggableId={id}
+                                <ListItem
+                                    id={id}
+                                    content={content}
                                     index={index}
-                                >
-                                    {(provided) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={provided.draggableProps.style}
-                                        >
-                                            {content}
-                                        </div>
-                                    )}
-                                </Draggable>
+                                />
+                                // <Draggable
+                                //     key={id}
+                                //     draggableId={id}
+                                //     index={index}
+                                // >
+                                //     {(provided) => (
+                                //         <div
+                                //             ref={provided.innerRef}
+                                //             {...provided.draggableProps}
+                                //             {...provided.dragHandleProps}
+                                //             style={provided.draggableProps.style}
+                                //         >
+                                //             {content}
+                                //         </div>
+                                //     )}
+                                // </Draggable>
                             )
                         }))}
                         {provided.placeholder}

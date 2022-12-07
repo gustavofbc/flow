@@ -62,6 +62,7 @@ function App() {
       <DragDropContext onDragEnd={onDragEnd}>
         {columns.map((column) => (
           <Column
+            key={'123'}
             idColumn={'123'}
             nameColumn={column.name}
             taskList={task}
