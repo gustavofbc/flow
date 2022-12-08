@@ -28,8 +28,13 @@ export default createGlobalStyle`
         cursor: pointer;
     }
 
-    h1 {
+    h1, h2, h3, h4 {
         font-family: 'Jura', sans-serif;
+    }
+
+    .columns {
+        padding: 2rem;
+        display: flex;
     }
 `
 

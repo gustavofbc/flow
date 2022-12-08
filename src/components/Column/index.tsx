@@ -1,7 +1,7 @@
 import { Droppable } from '@hello-pangea/dnd'
 import React from 'react'
 import ListItem from '../ListItem'
-import { ContainerColumn } from './styles'
+import { ContainerColumn, TitleColumn } from './styles'
 
 interface TaskProps {
     id: string,
@@ -23,7 +23,7 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId }: ColumnProps) =>
         >
             {(provided) => (
                 <ContainerColumn>
-                    <h1>{nameColumn}</h1>
+                    <TitleColumn>{nameColumn}</TitleColumn>
                     <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
@@ -35,22 +35,6 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId }: ColumnProps) =>
                                     content={content}
                                     index={index}
                                 />
-                                // <Draggable
-                                //     key={id}
-                                //     draggableId={id}
-                                //     index={index}
-                                // >
-                                //     {(provided) => (
-                                //         <div
-                                //             ref={provided.innerRef}
-                                //             {...provided.draggableProps}
-                                //             {...provided.dragHandleProps}
-                                //             style={provided.draggableProps.style}
-                                //         >
-                                //             {content}
-                                //         </div>
-                                //     )}
-                                // </Draggable>
                             )
                         }))}
                         {provided.placeholder}

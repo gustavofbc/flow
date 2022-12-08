@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { DragDropContext, Draggable, Droppable, DropResult } from '@hello-pangea/dnd';
+import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import Home from './pages/Home';
 import Column from './components/Column';
+import InsertColumn from './components/InsertColumn';
 
 
 // const initialItems = [
@@ -33,7 +34,12 @@ const initialColumns = [
     name: 'To do',
     id: '123',
     items: listItems,
-  }
+  },
+  {
+    name: 'Doing',
+    id: '23',
+    items: listItems,
+  },
 ]
 
 function App() {
@@ -58,54 +64,20 @@ function App() {
   return (
     <>
       <Home />
-
-      <DragDropContext onDragEnd={onDragEnd}>
-        {columns.map((column) => (
-          <Column
-            key={'123'}
-            idColumn={'123'}
-            nameColumn={column.name}
-            taskList={task}
-            droppableId={'task'}
-          />
-          // <Droppable
-          //   droppableId='task'
-          // >
-          //   {(provided) => (
-          //     <div>
-          //       <h1>{column.name}</h1>
-          //       <div
-          //         {...provided.droppableProps}
-          //         ref={provided.innerRef}
-          //       >
-          //         {(task.map(({ id, content }, index) => {
-          //           return (
-          //             <Draggable
-          //               key={id}
-          //               draggableId={id}
-          //               index={index}
-          //             >
-          //               {(provided) => (
-          //                 <div
-          //                   ref={provided.innerRef}
-          //                   {...provided.draggableProps}
-          //                   {...provided.dragHandleProps}
-          //                   style={provided.draggableProps.style}
-          //                 >
-          //                   {content}
-          //                 </div>
-          //               )}
-          //             </Draggable>
-          //           )
-          //         }))}
-          //         {provided.placeholder}
-          //       </div>
-          //     </div>
-          //   )}
-
-          // </Droppable>
-        ))}
-      </DragDropContext>
+      <div className='columns'>
+        <DragDropContext onDragEnd={onDragEnd}>
+          {columns.map((column) => (
+            <Column
+              key={'123'}
+              idColumn={'123'}
+              nameColumn={column.name}
+              taskList={task}
+              droppableId={'task'}
+            />
+          ))}
+        </DragDropContext>
+        <InsertColumn nameColumn='teste' />
+      </div>
 
     </>
   )

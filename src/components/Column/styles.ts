@@ -5,7 +5,12 @@ export const ContainerColumn = styled.div`
     max-width: 375px;
     background: var(--white);
 
+    margin: 1rem;
     padding: 1rem;
     border-radius: .5rem;
     border: 2px solid var(--black);
+`
+
+export const TitleColumn = styled.h1`
+    word-break: break-all;
 `
