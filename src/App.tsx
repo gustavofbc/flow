@@ -10,6 +10,18 @@ import InsertColumn from './components/InsertColumn';
 //   { id: '2', content: 'Task 2' }
 // ]
 
+interface TaskProps {
+  id: number
+  content: string
+  // isCompleted: boolean
+}
+
+interface ColumnProps {
+  id: number,
+  name: string,
+  listTasks: Array<TaskProps>[],
+}
+
 const listItems = [
   {
     id: '1',
@@ -43,8 +55,13 @@ const initialColumns = [
 ]
 
 function App() {
-  const [columns, setColumns] = useState(initialColumns)
+  const [columns, setColumns] = useState<ColumnProps[]>([])
   const [task, setTask] = useState(listItems)
+
+  const [lastId, setLastId] = useState(0);
+  // const initialColumnState = { id: null, name: '', listItems: [] }
+  const initialTaskState = { id: null, content: '' }
+  const [newColumnTitle, setNewColumnTitle] = useState('')
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -55,6 +72,26 @@ function App() {
     items.splice(destination.index, 0, newOrder)
 
     setTask(items);
+  }
+
+  function HandleCreateNewColumn() {
+    event?.preventDefault();
+
+    if (newColumnTitle != '') {
+      const newColumn = {
+        name: newColumnTitle,
+        id: lastId + 1,
+        listTasks: []
+      }
+
+      const result = [...columns, newColumn]
+      // console.log(result)
+
+      setColumns(result);
+      setLastId(newColumn.id);
+      setNewColumnTitle('');
+    }
+    return;
   }
 
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -76,7 +113,11 @@ function App() {
             />
           ))}
         </DragDropContext>
-        <InsertColumn nameColumn='teste' />
+        <InsertColumn
+          addColumn={HandleCreateNewColumn}
+          setNewColumnTitle={setNewColumnTitle}
+          nameColumn={newColumnTitle}
+        />
       </div>
 
     </>
