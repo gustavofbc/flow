@@ -112,7 +112,7 @@ export const ButtonRemove = styled.button`
     transition: .3s;
 
     &:hover {
-        color: #E83F5B;
-        border: 2px solid #E83F5B;
+        color: var(--red);
+        border: 2px solid var(--red);
     } 
 `

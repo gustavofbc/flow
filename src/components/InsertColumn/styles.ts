@@ -4,6 +4,7 @@ export const ContainerInsertColumn = styled.label`
     height: 3.4rem;
     width: 100%;
     max-width: 375px;
+    min-width: 375px;
 
     display: flex;
     align-items: center;

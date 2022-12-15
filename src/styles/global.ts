@@ -9,6 +9,7 @@ export default createGlobalStyle`
         --green-light: #0EF6CC;
         --text: #2E384D;
         --purple: #4D51B4;
+        --red: #E83F5B;
         --white: #FDFBFD;
     }
 
@@ -35,6 +36,21 @@ export default createGlobalStyle`
     .columns {
         padding: 2rem;
         display: flex;
+        overflow-x: scroll;
+
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        &::-webkit-scrollbar-track {
+            border-radius: 4px;
+        }
+ 
+        &::-webkit-scrollbar-thumb {
+            background: linear-gradient(90deg, #4D51B4 0%, #11EB9C 100%);
+            border-radius: 6px;
+            border: 2px solid var(--black);
+        }
     }
 `
 
