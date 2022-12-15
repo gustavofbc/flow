@@ -34,7 +34,11 @@ const InsertColumn = ({ nameColumn, addColumn, setNewColumnTitle }: InsertColumn
                     className='inputTitleColumn'
                     placeholder='Adicionar uma nova lista'
                 />
-                <FiPlus size={26} color={'gray'} />
+                <FiPlus
+                    size={26}
+                    onClick={() => addColumn(nameColumn)}
+                    className='iconAdd'
+                />
             </ContainerInsertColumn>
         </form>
 

@@ -44,12 +44,12 @@ const listItems = [
 const initialColumns = [
   {
     name: 'To do',
-    id: '123',
+    id: 1,
     items: listItems,
   },
   {
     name: 'Doing',
-    id: '23',
+    id: 2,
     items: listItems,
   },
 ]
@@ -59,9 +59,9 @@ function App() {
   const [task, setTask] = useState(listItems)
 
   const [lastId, setLastId] = useState(0);
-  // const initialColumnState = { id: null, name: '', listItems: [] }
-  const initialTaskState = { id: null, content: '' }
   const [newColumnTitle, setNewColumnTitle] = useState('')
+
+  const [isEditing, setIsEditing] = useState(false)
 
   const onDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -85,13 +85,25 @@ function App() {
       }
 
       const result = [...columns, newColumn]
-      // console.log(result)
 
       setColumns(result);
       setLastId(newColumn.id);
       setNewColumnTitle('');
     }
     return;
+  }
+
+  function handleEditColumn(idColumn: number, newTitle: string) {
+    setIsEditing(true);
+    event?.preventDefault();
+    const ColumnsArray = [...columns];
+
+    for (var i in ColumnsArray) {
+      if (ColumnsArray[i].id === idColumn) {
+        ColumnsArray[i].name = newTitle
+      }
+    }
+    setColumns(ColumnsArray)
   }
 
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -105,11 +117,14 @@ function App() {
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
             <Column
-              key={'123'}
-              idColumn={'123'}
+              key={column.id}
+              idColumn={column.id}
+              droppableId={'task'}
               nameColumn={column.name}
               taskList={task}
-              droppableId={'task'}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+              handleEditColumn={handleEditColumn}
             />
           ))}
         </DragDropContext>

@@ -40,9 +40,18 @@ export const ContainerInsertColumn = styled.label`
 
     }
 
+    .iconAdd {
+        cursor: pointer;
+
+        &:hover {
+            color: var(--green);
+        }
+    }
+
     &:hover {
         opacity: 1;
     }
+
 `
 
 export const InputTitleColumn = styled.input`

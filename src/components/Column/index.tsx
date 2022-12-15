@@ -1,7 +1,8 @@
 import { Droppable } from '@hello-pangea/dnd'
-import React from 'react'
+import React, { useState } from 'react'
 import ListItem from '../ListItem'
-import { ContainerColumn, TitleColumn } from './styles'
+import { ActionButton, ContainerColumn, FormColumn, InputTitleColumn, TitleColumn } from './styles'
+import { FiEdit, FiSave } from 'react-icons/fi'
 
 interface TaskProps {
     id: string,
@@ -9,13 +10,35 @@ interface TaskProps {
 }
 
 interface ColumnProps {
-    idColumn: string,
+    idColumn: number,
     nameColumn: string,
     taskList: Array<TaskProps>,
     droppableId: string,
+    setIsEditing: (value: boolean) => void,
+    isEditing: boolean,
+    handleEditColumn: (idColumn: number, nameColumn: string) => void,
 }
 
-const Column = ({ idColumn, nameColumn, taskList, droppableId }: ColumnProps) => {
+const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsEditing, handleEditColumn }: ColumnProps) => {
+    const [titleEditing, setTitleEditing] = useState(nameColumn);
+    const [columnSelected, setColumnSelected] = useState(0);
+
+    function resetValues() {
+        setColumnSelected(0)
+        handleSelectColumn();
+        setIsEditing(false)
+    }
+
+    function verify(idColumn: number) {
+        setColumnSelected(idColumn);
+        handleSelectColumn();
+    }
+
+    async function handleSelectColumn() {
+        setIsEditing(true);
+        await handleEditColumn(columnSelected, titleEditing);
+    }
+
     return (
         <Droppable
             key={idColumn}
@@ -23,7 +46,45 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId }: ColumnProps) =>
         >
             {(provided) => (
                 <ContainerColumn>
-                    <TitleColumn>{nameColumn}</TitleColumn>
+                    <FormColumn onSubmit={(event) => (event.preventDefault())}>
+
+                        {isEditing === true ?
+                            <>
+                                {columnSelected === idColumn ?
+                                    <>
+                                        <InputTitleColumn
+                                            value={titleEditing}
+                                            onClick={() => verify(idColumn)}
+                                            onChange={(event) => setTitleEditing(event.target.value)}
+                                        />
+
+                                        <ActionButton
+                                            className='save'
+                                            onClick={() => resetValues()}
+                                        >
+                                            <FiSave size={24} />
+                                        </ActionButton>
+                                    </>
+                                    :
+                                    <TitleColumn disabled value={nameColumn} />
+                                }
+                            </>
+                            :
+                            <>
+                                <TitleColumn
+                                    value={titleEditing}
+                                    onClick={() => verify(idColumn)}
+                                    onChange={(event) => setTitleEditing(event.target.value)}
+                                />
+                                <ActionButton
+                                    className='edit'
+                                    onClick={() => verify(idColumn)}
+                                >
+                                    <FiEdit size={24} />
+                                </ActionButton>
+                            </>
+                        }
+                    </FormColumn>
                     <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
