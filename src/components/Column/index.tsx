@@ -1,8 +1,8 @@
 import { Droppable } from '@hello-pangea/dnd'
 import React, { useState } from 'react'
 import ListItem from '../ListItem'
-import { ActionButton, ContainerColumn, FormColumn, InputTitleColumn, TitleColumn } from './styles'
-import { FiEdit, FiSave } from 'react-icons/fi'
+import { ActionButton, ButtonRemove, ContainerColumn, FormColumn, InputTitleColumn, TitleColumn } from './styles'
+import { FiEdit, FiSave, FiTrash } from 'react-icons/fi'
 
 interface TaskProps {
     id: string,
@@ -17,9 +17,10 @@ interface ColumnProps {
     setIsEditing: (value: boolean) => void,
     isEditing: boolean,
     handleEditColumn: (idColumn: number, nameColumn: string) => void,
+    deleteColumn: (idColumn: number) => void,
 }
 
-const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsEditing, handleEditColumn }: ColumnProps) => {
+const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsEditing, handleEditColumn, deleteColumn }: ColumnProps) => {
     const [titleEditing, setTitleEditing] = useState(nameColumn);
     const [columnSelected, setColumnSelected] = useState(0);
 
@@ -39,6 +40,17 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsE
         await handleEditColumn(columnSelected, titleEditing);
     }
 
+    function handleDeleteColumn(idColumn: number) {
+        const response = confirm('Tem certeza de que deseja deletar esta lista?')
+        if (response === true) {
+            deleteColumn(idColumn);
+            setIsEditing(false);
+        }
+        else {
+            return
+        }
+    }
+
     return (
         <Droppable
             key={idColumn}
@@ -52,6 +64,11 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsE
                             <>
                                 {columnSelected === idColumn ?
                                     <>
+                                        <ButtonRemove
+                                            onClick={() => handleDeleteColumn(idColumn)}
+                                        >
+                                            <FiTrash size={20} />
+                                        </ButtonRemove>
                                         <InputTitleColumn
                                             value={titleEditing}
                                             onClick={() => verify(idColumn)}
@@ -66,7 +83,14 @@ const Column = ({ idColumn, nameColumn, taskList, droppableId, isEditing, setIsE
                                         </ActionButton>
                                     </>
                                     :
-                                    <TitleColumn disabled value={nameColumn} />
+                                    <>
+                                        <ButtonRemove
+                                            onClick={() => handleDeleteColumn(idColumn)}
+                                        >
+                                            <FiTrash size={20} />
+                                        </ButtonRemove>
+                                        <TitleColumn disabled value={nameColumn} />
+                                    </>
                                 }
                             </>
                             :

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const ContainerColumn = styled.div`
+    position: relative;
     width: 100%;
     max-width: 375px;
     background: var(--white);
@@ -47,9 +48,9 @@ export const InputTitleColumn = styled.textarea`
 `
 
 export const TitleColumn = styled.textarea`
-    min-height: 70px;
+    border: 1px solid transparent;
+    border-radius: .5rem;
     padding: .5rem;
-    border: none;
     background: transparent;
     font-size: 1.4rem;
     font-weight: bold;
@@ -95,4 +96,23 @@ export const ActionButton = styled.button`
         background: var(--green);
         color: var(--black);  
     }
+`
+
+export const ButtonRemove = styled.button`
+    position: absolute;
+    top: -20px;
+    left: -20px;
+
+    width: 2.6rem;
+    height: 2.6rem;
+    border: 2px solid var(--black);
+    border-radius: 50%;
+    color: var(--black);
+    background: var(--background);
+    transition: .3s;
+
+    &:hover {
+        color: #E83F5B;
+        border: 2px solid #E83F5B;
+    } 
 `

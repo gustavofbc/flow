@@ -96,14 +96,20 @@ function App() {
   function handleEditColumn(idColumn: number, newTitle: string) {
     setIsEditing(true);
     event?.preventDefault();
-    const ColumnsArray = [...columns];
+    const columnsArray = [...columns];
 
-    for (var i in ColumnsArray) {
-      if (ColumnsArray[i].id === idColumn) {
-        ColumnsArray[i].name = newTitle
+    for (var i in columnsArray) {
+      if (columnsArray[i].id === idColumn) {
+        columnsArray[i].name = newTitle
       }
     }
-    setColumns(ColumnsArray)
+    setColumns(columnsArray);
+  }
+
+  function deleteColumn(idColumn: number) {
+    const columnsArray = [...columns];
+    const result = columnsArray.filter((column) => column.id !== idColumn)
+    setColumns(result);
   }
 
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -125,6 +131,7 @@ function App() {
               isEditing={isEditing}
               setIsEditing={setIsEditing}
               handleEditColumn={handleEditColumn}
+              deleteColumn={deleteColumn}
             />
           ))}
         </DragDropContext>
