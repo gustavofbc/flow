@@ -24,38 +24,6 @@ interface ColumnProps {
   listTasks: Array<TaskProps>[],
 }
 
-// const listItems = [
-//   {
-//     id: '1',
-//     content: 'Task 1'
-//   },
-//   {
-//     id: '2',
-//     content: 'Task 2'
-//   },
-//   {
-//     id: '3',
-//     content: 'Task 3'
-//   },
-//   {
-//     id: '4',
-//     content: 'Task 4'
-//   },
-// ]
-
-// const initialColumns = [
-//   {
-//     name: 'To do',
-//     id: 1,
-//     items: listItems,
-//   },
-//   {
-//     name: 'Doing',
-//     id: 2,
-//     items: listItems,
-//   },
-// ]
-
 function App() {
   const [columns, setColumns] = useState<ColumnProps[]>([]);
   const [tasks, setTasks] = useState<TaskProps[]>([]);
@@ -63,20 +31,29 @@ function App() {
   const [lastIdColumn, setLastIdColumn] = useState(0);
   const [newColumnTitle, setNewColumnTitle] = useState('')
   const [lastIdTask, setLastIdTask] = useState(0);
-  // const [newTaskTitle, setNewTaskTitle] = useState('');
 
   const [isEditing, setIsEditing] = useState(false)
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
+    const { source, destination, draggableId } = result;
     if (!destination) return
 
-    const items = Array.from(tasks)
-    const [newOrder] = items.splice(source.index, 1);
-    items.splice(destination.index, 0, newOrder)
+    const start = columns[Number(source.droppableId)];
+    const finish = columns[Number(destination.droppableId)];
 
-    setTasks(items);
+    if (start === finish) {
+      const items = Array.from(tasks)
+      const [newOrder] = items.splice(source.index, 1);
+      items.splice(destination.index, 0, newOrder)
+
+      setTasks(items);
+    }
+
+    // const startTaskIds = start.listTasks;
+    // startTaskIds.splice(source.index, 1);
+    // console.log(startTaskIds)
   }
+
 
   function HandleCreateNewColumn() {
     event?.preventDefault();
@@ -116,25 +93,6 @@ function App() {
     setColumns(result);
   }
 
-  // function addNewTask(idColumn: number) {
-  //   if (newTaskTitle != '') {
-  //     const newTask = {
-  //       id: lastIdTask + 1,
-  //       content: newTaskTitle,
-  //       isCompleted: false,
-  //       idColumn: idColumn
-  //     }
-
-  //     const result = [...tasks, newTask]
-  //     setTasks(result);
-  //     // columnsArray.map((column) => {
-  //     //   if (column.id === idColumn) {
-  //     //     column.listTasks.push()
-  //     //   }
-  //     // })
-  //   }
-  // }
-
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   //   padding: 10,
   // })
@@ -150,7 +108,7 @@ function App() {
             <Column
               key={column.id}
               id={column.id}
-              droppableId={'task'}
+              droppableId={String(column.id)}
               nameColumn={column.name}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
@@ -158,8 +116,6 @@ function App() {
               deleteColumn={deleteColumn}
               taskList={tasks}
               setTasks={setTasks}
-              // newTaskTitle={newTaskTitle}
-              // setNewTaskTitle={setNewTaskTitle}
               lastIdTask={lastIdTask}
               setLastIdTask={setLastIdTask}
             />

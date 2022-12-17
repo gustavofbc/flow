@@ -10,17 +10,16 @@ interface InsertTaskProps {
 }
 
 const InsertTask = ({ idColumn, newTaskTitle, setNewTaskTitle, addNewTask }: InsertTaskProps) => {
-    // const [newTaskTitle, setNewTaskTitle] = useState('');
 
     function HandleCreateNewTask() {
-        console.log(newTaskTitle);
+        event?.preventDefault();
         addNewTask(idColumn);
     }
 
     return (
 
         <ContainerInsertTask>
-            <FormInsertTask onSubmit={(event) => event.preventDefault()}>
+            <FormInsertTask onSubmit={() => HandleCreateNewTask()}>
 
                 <input
                     value={newTaskTitle}

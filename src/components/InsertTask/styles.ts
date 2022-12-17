@@ -42,7 +42,7 @@ export const ContainerInsertTask = styled.div`
     }
 `
 
-export const FormInsertTask = styled.div`
+export const FormInsertTask = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;

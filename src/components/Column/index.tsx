@@ -74,7 +74,8 @@ const Column = ({ id, nameColumn, taskList, setTasks, droppableId, isEditing, se
 
             const result = [...taskList, newTask]
             setTasks(result);
-            setLastIdTask(newTask.id)
+            setLastIdTask(newTask.id);
+            setNewTaskTitle('');
         }
     }
 
