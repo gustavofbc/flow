@@ -4,7 +4,7 @@ import Task from '../Task'
 import { ContainerListItem } from './styles'
 
 interface ListItemProps {
-    id: string,
+    id: number,
     index: number,
     content: string,
 }
@@ -20,7 +20,7 @@ const ListItem = ({ id, index, content }: ListItemProps) => {
         <>
             <Draggable
                 key={id}
-                draggableId={id}
+                draggableId={id.toString()}
                 index={index}
             >
                 {(provided) => (

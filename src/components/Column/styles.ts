@@ -4,6 +4,7 @@ export const ContainerColumn = styled.div`
     position: relative;
     width: 100%;
     max-width: 375px;
+    min-width: 375px;
     background: var(--white);
 
     margin: 1rem;
