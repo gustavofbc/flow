@@ -11,6 +11,7 @@ export const ContainerColumn = styled.div`
     padding: 1rem;
     border-radius: .5rem;
     border: 2px solid var(--black);
+
 `
 
 export const FormColumn = styled.form`
@@ -116,4 +117,13 @@ export const ButtonRemove = styled.button`
         color: var(--red);
         border: 2px solid var(--red);
     } 
+`
+
+export const Notify = styled.div`
+    text-align: center;
+    font-family: 'Jura';
+    color: var(--gray);
+    padding: 1rem;
+    cursor: context-menu;
+
 `

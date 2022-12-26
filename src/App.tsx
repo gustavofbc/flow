@@ -3,8 +3,6 @@ import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import Home from './pages/Home';
 import Column from './components/Column';
 import InsertColumn from './components/InsertColumn';
-import InsertTask from './components/InsertTask';
-
 
 // const initialItems = [
 //   { id: '1', content: 'Task 1' },
@@ -21,15 +19,14 @@ interface TaskProps {
 interface ColumnProps {
   id: number,
   name: string,
-  listTasks: Array<TaskProps>[],
+  listTasks: TaskProps[],
 }
 
 function App() {
   const [columns, setColumns] = useState<ColumnProps[]>([]);
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
+  const [newColumnTitle, setNewColumnTitle] = useState('')
 
   const [lastIdColumn, setLastIdColumn] = useState(0);
-  const [newColumnTitle, setNewColumnTitle] = useState('')
   const [lastIdTask, setLastIdTask] = useState(0);
 
   const [isEditing, setIsEditing] = useState(false)
@@ -38,20 +35,52 @@ function App() {
     const { source, destination, draggableId } = result;
     if (!destination) return
 
-    const start = columns[Number(source.droppableId)];
-    const finish = columns[Number(destination.droppableId)];
+    let sourceColumnsItems: TaskProps[] = [];
+    let destinationColumnItems: TaskProps[] = [];
+    let draggedItem: any = {};
 
-    if (start === finish) {
-      const items = Array.from(tasks)
-      const [newOrder] = items.splice(source.index, 1);
-      items.splice(destination.index, 0, newOrder)
+    let sourceColumnId = 0;
+    let destinationColumnId = 0;
 
-      setTasks(items);
+    for (var i in columns) {
+      if (String(columns[i].id) == source.droppableId) {
+        sourceColumnsItems = columns[i].listTasks;
+        sourceColumnId = Number(i);
+      } else if (String(columns[i].id) == destination.droppableId) {
+        destinationColumnItems = columns[i].listTasks;
+        destinationColumnId = Number(i);
+      }
+    }
+    // console.log(sourceColumnId)
+    // console.log(destinationColumnId)
+
+    for (var i in sourceColumnsItems) {
+      if (String(sourceColumnsItems[i].id) == draggableId) {
+        draggedItem = sourceColumnsItems[i];
+      }
     }
 
-    // const startTaskIds = start.listTasks;
-    // startTaskIds.splice(source.index, 1);
-    // console.log(startTaskIds)
+    //excluir a task arrastada
+    let filteredSourceColumnItems = sourceColumnsItems.filter((item) => String(item.id) != draggableId)
+
+    //adiciona a task arrastada em uma nova posição
+    if (source.droppableId == destination.droppableId) {
+      filteredSourceColumnItems.splice(destination.index, 0, draggedItem);
+
+      //atualiza o state
+      let columnsCopy = JSON.parse(JSON.stringify(columns));
+      columnsCopy[sourceColumnId].listTasks = filteredSourceColumnItems;
+      setColumns(columnsCopy)
+    } else {
+      destinationColumnItems.splice(destination.index, 0, draggedItem);
+
+      //atualiza o state
+      let columnsCopy = JSON.parse(JSON.stringify(columns));
+      columnsCopy[sourceColumnId].listTasks = filteredSourceColumnItems
+      columnsCopy[destinationColumnId].listTasks = destinationColumnItems;
+      setColumns(columnsCopy)
+    }
+
   }
 
 
@@ -93,6 +122,19 @@ function App() {
     setColumns(result);
   }
 
+  function addTaskInColumn(idColumn: number, newTask: TaskProps) {
+    const columnsArray = [...columns];
+    const result = columnsArray.filter((column) => column.id === idColumn)
+    const arrayTaskList = [...result[0].listTasks, newTask]
+
+    for (var i in columnsArray) {
+      if (columnsArray[i].id === idColumn) {
+        columnsArray[i].listTasks = arrayTaskList
+      }
+    }
+    setColumns(columnsArray);
+  }
+
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   //   padding: 10,
   // })
@@ -100,9 +142,7 @@ function App() {
   return (
     <>
       <Home />
-      {/* <button onClick={() => addNewTask(1)}>a</button> */}
       <div className='columns'>
-        <button onClick={() => console.log(tasks)}>a</button>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
             <Column
@@ -114,10 +154,10 @@ function App() {
               setIsEditing={setIsEditing}
               editColumn={editColumn}
               deleteColumn={deleteColumn}
-              taskList={tasks}
-              setTasks={setTasks}
               lastIdTask={lastIdTask}
               setLastIdTask={setLastIdTask}
+              addTaskInColumn={addTaskInColumn}
+              tasks={column.listTasks}
             />
           ))}
         </DragDropContext>

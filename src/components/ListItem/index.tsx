@@ -34,14 +34,6 @@ const ListItem = ({ id, index, content }: ListItemProps) => {
                             key={id}
                             content={content}
                         />
-                        {/* <TaskContainer>
-                            <input
-                                type="checkbox"
-                            />
-                            <TaskTitle>
-                                {content}
-                            </TaskTitle>
-                        </TaskContainer> */}
                     </ContainerListItem>
                 )}
             </Draggable>
