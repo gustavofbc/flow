@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DragDropContext, DropResult } from '@hello-pangea/dnd';
 import Home from './pages/Home';
 import Column from './components/Column';

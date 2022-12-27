@@ -1,5 +1,5 @@
 import { Droppable } from '@hello-pangea/dnd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ListItem from '../ListItem'
 import { ActionButton, ButtonRemove, ContainerColumn, FormColumn, InputTitleColumn, Notify, TitleColumn } from './styles'
 import { FiEdit, FiSave, FiTrash } from 'react-icons/fi'
@@ -37,6 +37,9 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
     const [columnSelected, setColumnSelected] = useState(-1);
 
     const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [tasksOfColumn, setTasksOfColumn] = useState(tasks);
+    const [tasksCompleted, setTasksCompleted] = useState(0);
+    const [tasksNotCompleted, setTasksNotCompleted] = useState(0);
 
     function resetValues() {
         setColumnSelected(0)
@@ -78,6 +81,22 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
             setLastIdTask(newTask.id);
             setNewTaskTitle('');
         }
+    }
+
+    function toggleTaskCompletion(idTask: number) {
+        const tasksArray = [...tasks]
+
+        for (var i in tasksArray) {
+            if (tasksArray[i].id === idTask) {
+                tasksArray[i].isCompleted = !tasksArray[i].isCompleted
+                if (tasksArray[i].isCompleted === true) {
+                    setTasksCompleted(tasksCompleted + 1)
+                } else {
+                    setTasksCompleted(tasksCompleted - 1)
+                }
+            }
+        }
+        setTasksOfColumn(tasksArray);
     }
 
     return (
@@ -144,26 +163,38 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
                 droppableId={String(id)}
             >
                 {(provided) => (
-
                     <div
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                     >
-                        {tasks.length === 0 &&
+                        {tasks.length === 0 ?
                             <Notify>
-                                Arraste/solte suas atividades aqui...
+                                Arraste/solte suas tarefas aqui...
                             </Notify>
+                            :
+                            <>
+                                {
+                                    (tasks.map((task, index) => {
+                                        return (
+                                            <ListItem
+                                                key={task.id}
+                                                id={task.id}
+                                                content={task.content}
+                                                index={index}
+                                                isCompleted={task.isCompleted}
+                                                toggleTaskCompletion={toggleTaskCompletion}
+                                            />
+                                        )
+
+                                    }
+                                    ))
+                                }
+                                <Notify>
+                                    {`${tasksCompleted} de ${tasks.length}  tarefas concluídas`}
+                                </Notify>
+                            </>
                         }
-                        {(tasks.map((task, index) => {
-                            return (
-                                <ListItem
-                                    id={task.id}
-                                    content={task.content}
-                                    index={index}
-                                />
-                            )
-                        }
-                        ))}
+
                         {provided.placeholder}
                     </div>
                 )}

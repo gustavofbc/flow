@@ -7,6 +7,8 @@ interface ListItemProps {
     id: number,
     index: number,
     content: string,
+    isCompleted: boolean,
+    toggleTaskCompletion: (idTask: number) => void
 }
 
 // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -15,7 +17,7 @@ interface ListItemProps {
 //     ...draggableStyle
 // })
 
-const ListItem = ({ id, index, content }: ListItemProps) => {
+const ListItem = ({ id, index, content, isCompleted, toggleTaskCompletion }: ListItemProps) => {
     return (
         <>
             <Draggable
@@ -24,7 +26,8 @@ const ListItem = ({ id, index, content }: ListItemProps) => {
                 index={index}
             >
                 {(provided) => (
-                    <ContainerListItem className='item'
+                    <ContainerListItem
+                        className={isCompleted === true ? 'completed' : ''}
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
@@ -32,7 +35,10 @@ const ListItem = ({ id, index, content }: ListItemProps) => {
                     >
                         <Task
                             key={id}
+                            idTask={id}
                             content={content}
+                            isCompleted={isCompleted}
+                            toggleTaskCompletion={toggleTaskCompletion}
                         />
                     </ContainerListItem>
                 )}

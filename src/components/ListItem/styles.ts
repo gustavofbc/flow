@@ -13,9 +13,16 @@ export const ContainerListItem = styled.div`
     border-radius: .5rem;
     cursor: pointer;
 
-    transition: border .3s;
+    transition: all .3s;
+
+    &.completed {
+        color: var(--black);
+        background: var(--green);
+        text-decoration: line-through;
+    }
 
     &:hover {
         border: 2px solid var(--green);
     }
+
 `
