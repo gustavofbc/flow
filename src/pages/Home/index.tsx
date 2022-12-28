@@ -11,10 +11,10 @@ const Home = () => {
                 <img src={Logo} alt="Flow logo" />
             </ContainerLogo>
 
-            <ContentHome>
+            {/* <ContentHome>
                 <InputSearch />
                 <Button />
-            </ContentHome>
+            </ContentHome> */}
         </ContainerHome>
     )
 }

@@ -53,6 +53,10 @@ export const ContainerInsertColumn = styled.label`
         opacity: 1;
     }
 
+    @media(max-width: 500px) {
+        max-width: 350px;
+        min-width: 350px;
+    }
 `
 
 export const InputTitleColumn = styled.input`

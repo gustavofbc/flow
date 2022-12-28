@@ -12,6 +12,11 @@ export const ContainerColumn = styled.div`
     border-radius: .5rem;
     border: 2px solid var(--black);
 
+    @media(max-width: 500px) {
+        max-width: 350px;
+        min-width: 350px;
+    }
+
 `
 
 export const FormColumn = styled.form`
@@ -47,6 +52,9 @@ export const InputTitleColumn = styled.textarea`
         border-radius: 10px;
     }
 
+    @media(max-width: 500px) {
+        max-width: 250px;
+    }
 `
 
 export const TitleColumn = styled.textarea`
@@ -73,6 +81,10 @@ export const TitleColumn = styled.textarea`
         background: var(--green);
         border: 1px solid var(--black);
         border-radius: 10px;
+    }
+
+    @media(max-width: 500px) {
+        max-width: 250px;
     }
 
 `

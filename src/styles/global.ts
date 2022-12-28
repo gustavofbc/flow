@@ -51,6 +51,10 @@ export default createGlobalStyle`
             border-radius: 6px;
             border: 2px solid var(--black);
         }
+
+        @media(max-width: 500px) {
+            padding: 0;
+        }
     }
 `
 
