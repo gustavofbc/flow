@@ -53,7 +53,7 @@ export default createGlobalStyle`
         }
 
         @media(max-width: 500px) {
-            padding: 0;
+            padding: 1rem 0;
         }
     }
 `

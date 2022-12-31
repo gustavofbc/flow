@@ -28,6 +28,7 @@ function App() {
 
   const [lastIdColumn, setLastIdColumn] = useState(0);
   const [lastIdTask, setLastIdTask] = useState(0);
+  const [a, setA] = useState(0);
 
   const [isEditing, setIsEditing] = useState(false)
 
@@ -54,6 +55,7 @@ function App() {
     // console.log(sourceColumnId)
     // console.log(destinationColumnId)
 
+
     for (var i in sourceColumnsItems) {
       if (String(sourceColumnsItems[i].id) == draggableId) {
         draggedItem = sourceColumnsItems[i];
@@ -72,15 +74,15 @@ function App() {
       columnsCopy[sourceColumnId].listTasks = filteredSourceColumnItems;
       setColumns(columnsCopy)
     } else {
+      //atualiza o campo idColumn na task
+      draggedItem.idColumn = destinationColumnId + 1;
       destinationColumnItems.splice(destination.index, 0, draggedItem);
-
       //atualiza o state
       let columnsCopy = JSON.parse(JSON.stringify(columns));
       columnsCopy[sourceColumnId].listTasks = filteredSourceColumnItems
       columnsCopy[destinationColumnId].listTasks = destinationColumnItems;
       setColumns(columnsCopy)
     }
-
   }
 
 
@@ -138,6 +140,38 @@ function App() {
   // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
   //   padding: 10,
   // })
+  function deleteTask(idTask: number, idColumn: number) {
+    const response = confirm('Tem certeza de que deseja deletar esta tarefa?')
+    if (response === true) {
+      const columnsArray = [...columns];
+      const result = columnsArray.filter((column) => column.id === idColumn)
+      const arrayTaskList = [...result[0].listTasks]
+      const newList = arrayTaskList.filter((task) => task.id !== idTask)
+      for (var i in columnsArray) {
+        if (columnsArray[i].id === idColumn) {
+          columnsArray[i].listTasks = newList
+        }
+      }
+      setColumns(columnsArray);
+    }
+    else {
+      return
+    }
+  }
+
+  // function counter() {
+  //   columns.map((column) => {
+  //     column.listTasks.map((task) => {
+  //       if (task.isCompleted === true) {
+  //         setA(a + 1);
+  //       }
+  //     })
+  //   })
+  // }
+
+  // useEffect(() => {
+  //   console.log(columns)
+  // }, [columns])
 
   return (
     <>
@@ -158,6 +192,7 @@ function App() {
               setLastIdTask={setLastIdTask}
               addTaskInColumn={addTaskInColumn}
               tasks={column.listTasks}
+              deleteTask={deleteTask}
             />
           ))}
         </DragDropContext>

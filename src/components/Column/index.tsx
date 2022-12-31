@@ -30,16 +30,17 @@ interface ColumnProps {
     setLastIdTask: (value: number) => void,
     addTaskInColumn: (idColumn: number, newTask: TaskProps) => void,
     tasks: Array<TaskProps>
+    deleteTask: (idTask: number, idColumn: number) => void,
+
 }
 
-const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteColumn, lastIdTask, setLastIdTask, addTaskInColumn, tasks }: ColumnProps) => {
+const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteColumn, lastIdTask, setLastIdTask, addTaskInColumn, tasks, deleteTask }: ColumnProps) => {
     const [titleEditing, setTitleEditing] = useState(nameColumn);
     const [columnSelected, setColumnSelected] = useState(-1);
 
     const [newTaskTitle, setNewTaskTitle] = useState('');
     const [tasksOfColumn, setTasksOfColumn] = useState(tasks);
     const [tasksCompleted, setTasksCompleted] = useState(0);
-    const [tasksNotCompleted, setTasksNotCompleted] = useState(0);
 
     function resetValues() {
         setColumnSelected(0)
@@ -98,6 +99,7 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
         }
         setTasksOfColumn(tasksArray);
     }
+
 
     return (
         <ContainerColumn>
@@ -182,7 +184,11 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
                                                 content={task.content}
                                                 index={index}
                                                 isCompleted={task.isCompleted}
+                                                idColumn={task.idColumn}
                                                 toggleTaskCompletion={toggleTaskCompletion}
+                                                deleteTask={deleteTask}
+                                                tasksCompleted={tasksCompleted}
+                                                setTasksCompleted={setTasksCompleted}
                                             />
                                         )
 

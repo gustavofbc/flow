@@ -7,8 +7,12 @@ interface ListItemProps {
     id: number,
     index: number,
     content: string,
+    idColumn: number,
     isCompleted: boolean,
-    toggleTaskCompletion: (idTask: number) => void
+    toggleTaskCompletion: (idTask: number) => void,
+    deleteTask: (idTask: number, idColumn: number) => void,
+    tasksCompleted: number,
+    setTasksCompleted: (tasks: number) => void,
 }
 
 // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -17,7 +21,7 @@ interface ListItemProps {
 //     ...draggableStyle
 // })
 
-const ListItem = ({ id, index, content, isCompleted, toggleTaskCompletion }: ListItemProps) => {
+const ListItem = ({ id, index, content, idColumn, isCompleted, toggleTaskCompletion, deleteTask, tasksCompleted, setTasksCompleted }: ListItemProps) => {
     return (
         <>
             <Draggable
@@ -29,16 +33,21 @@ const ListItem = ({ id, index, content, isCompleted, toggleTaskCompletion }: Lis
                     <ContainerListItem
                         className={isCompleted === true ? 'completed' : ''}
                         ref={provided.innerRef}
-                        {...provided.draggableProps}
+                        {...isCompleted === true ? '' : { ...provided.draggableProps }}
                         {...provided.dragHandleProps}
-                        style={provided.draggableProps.style}
+                        // { ...isCompleted === true ? '' : {...provided.dragHandleProps}}
+                        style={isCompleted === true ? { transition: 'none', transform: 'none' } : provided.draggableProps.style}
                     >
                         <Task
                             key={id}
                             idTask={id}
                             content={content}
+                            idColumn={idColumn}
                             isCompleted={isCompleted}
                             toggleTaskCompletion={toggleTaskCompletion}
+                            deleteTask={deleteTask}
+                            tasksCompleted={tasksCompleted}
+                            setTasksCompleted={setTasksCompleted}
                         />
                     </ContainerListItem>
                 )}
