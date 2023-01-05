@@ -13,6 +13,7 @@ interface ListItemProps {
     deleteTask: (idTask: number, idColumn: number) => void,
     tasksCompleted: number,
     setTasksCompleted: (tasks: number) => void,
+    editTask: (idTask: number, newContent: string) => void,
 }
 
 // const getItemStyle = (isDragging: boolean, draggableStyle: any) => ({
@@ -21,7 +22,7 @@ interface ListItemProps {
 //     ...draggableStyle
 // })
 
-const ListItem = ({ id, index, content, idColumn, isCompleted, toggleTaskCompletion, deleteTask, tasksCompleted, setTasksCompleted }: ListItemProps) => {
+const ListItem = ({ id, index, content, idColumn, isCompleted, toggleTaskCompletion, deleteTask, tasksCompleted, setTasksCompleted, editTask }: ListItemProps) => {
     return (
         <>
             <Draggable
@@ -48,6 +49,7 @@ const ListItem = ({ id, index, content, idColumn, isCompleted, toggleTaskComplet
                             deleteTask={deleteTask}
                             tasksCompleted={tasksCompleted}
                             setTasksCompleted={setTasksCompleted}
+                            editTask={editTask}
                         />
                     </ContainerListItem>
                 )}

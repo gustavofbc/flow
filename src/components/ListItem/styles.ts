@@ -44,6 +44,10 @@ export const ContainerListItem = styled.div`
             /* .delete-icon {
                 color: var(--gray);
             } */
+
+            .save {
+                color: var(--black);
+            }
         }
     }
 

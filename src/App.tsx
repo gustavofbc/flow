@@ -159,23 +159,10 @@ function App() {
     }
   }
 
-  // function counter() {
-  //   columns.map((column) => {
-  //     column.listTasks.map((task) => {
-  //       if (task.isCompleted === true) {
-  //         setA(a + 1);
-  //       }
-  //     })
-  //   })
-  // }
-
-  // useEffect(() => {
-  //   console.log(columns)
-  // }, [columns])
-
   return (
     <>
       <Home />
+      <button onClick={() => console.log(columns)}>a</button>
       <div className='columns'>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (

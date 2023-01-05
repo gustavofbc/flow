@@ -1,5 +1,5 @@
 import { Droppable } from '@hello-pangea/dnd'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import ListItem from '../ListItem'
 import { ActionButton, ButtonRemove, ContainerColumn, FormColumn, InputTitleColumn, Notify, TitleColumn } from './styles'
 import { FiEdit, FiSave, FiTrash } from 'react-icons/fi'
@@ -100,6 +100,17 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
         setTasksOfColumn(tasksArray);
     }
 
+    function editTask(idTask: number, newContentTask: string) {
+        const tasksArray = [...tasks]
+
+        for (var i in tasksArray) {
+            if (tasksArray[i].id === idTask) {
+                tasksArray[i].content = newContentTask
+            }
+        }
+        setTasksOfColumn(tasksArray);
+    }
+
 
     return (
         <ContainerColumn>
@@ -189,6 +200,7 @@ const Column = ({ id, nameColumn, isEditing, setIsEditing, editColumn, deleteCol
                                                 deleteTask={deleteTask}
                                                 tasksCompleted={tasksCompleted}
                                                 setTasksCompleted={setTasksCompleted}
+                                                editTask={editTask}
                                             />
                                         )
 
