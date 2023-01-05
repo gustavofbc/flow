@@ -162,7 +162,6 @@ function App() {
   return (
     <>
       <Home />
-      <button onClick={() => console.log(columns)}>a</button>
       <div className='columns'>
         <DragDropContext onDragEnd={onDragEnd}>
           {columns.map((column) => (
